@@ -103,8 +103,17 @@ def fetch_all_countries(api_key=""):
         groups = data.get("group_by", [])
         for group in groups:
             key = group.get("key")
-            if key and key != "unknown":
-                all_countries.add(key)
+            if not key or key == "unknown":
+                continue
+            # OpenAlex sometimes returns the group key as a bare code ("AE")
+            # and sometimes as a full entity URL
+            # (https://openalex.org/countries/AE) - normalize to the bare
+            # code so the dropdown never offers a URL as a "country" and
+            # fetch_institutions never builds a filter like
+            # "country_code:https://openalex.org/countries/AE" (which
+            # OpenAlex doesn't resolve cleanly and can hang/504 on).
+            code = key.rstrip("/").split("/")[-1].upper()
+            all_countries.add(code)
 
         groups_count = data.get("meta", {}).get("groups_count", len(groups))
         if not groups or page * per_page >= groups_count:
@@ -114,8 +123,19 @@ def fetch_all_countries(api_key=""):
     return sorted(all_countries)
 
 
+def _normalize_country_code(country_code):
+    """Guard against a stray full entity URL sneaking into a country_code
+    filter (e.g. from an un-normalized OpenAlex group_by response) - see
+    fetch_all_countries."""
+    country_code = (country_code or "").strip()
+    if country_code.startswith("http"):
+        country_code = country_code.rstrip("/").split("/")[-1]
+    return country_code.upper()
+
+
 @st.cache_data(ttl=3600)
 def fetch_institutions(country_code, sort_by="works_count:desc", per_page=100, api_key="", max_results=500):
+    country_code = _normalize_country_code(country_code)
     all_results = []
     page = 1
     while True:
