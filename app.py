@@ -853,7 +853,7 @@ with tab4:
                                      line=dict(color=CHART_PALETTE[1], width=3)), row=1, col=1, secondary_y=True)
         fig_cum.add_trace(go.Scatter(x=df_years_sorted['year'], y=df_years_sorted['cum_oa'], name='OA Works',
                                      line=dict(color=CHART_PALETTE[2], width=3)), row=1, col=2)
-        fig_cum.update_layout(showlegend=True, hovermode='x unified')
+        fig_cum.update_layout(title="Cumulative Growth Over Time", showlegend=True, hovermode='x unified')
         st.plotly_chart(styled_chart(fig_cum, height=460), width='stretch')
 
         st.markdown("---")
