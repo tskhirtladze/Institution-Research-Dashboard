@@ -7,6 +7,9 @@ import numpy as np
 import pandas as pd
 import itertools
 from collections import Counter
+from datetime import datetime
+
+EARLIEST_PLAUSIBLE_YEAR = 1900
 
 
 def extract_display_name(obj):
@@ -26,6 +29,10 @@ def build_years_dataframe(counts_by_year):
 
     df = pd.DataFrame(counts_by_year)
     if df.empty or "works_count" not in df.columns:
+        return pd.DataFrame()
+    current_year = datetime.now().year
+    df = df[(df["year"] >= EARLIEST_PLAUSIBLE_YEAR) & (df["year"] <= current_year + 1)]
+    if df.empty:
         return pd.DataFrame()
 
     if "oa_works_count" not in df.columns:

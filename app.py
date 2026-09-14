@@ -264,6 +264,7 @@ with tab1:
                 title='Year',
                 title_font=dict(color=INK),
                 tickfont=dict(color=INK_SOFT),
+                tickformat='d',
             ),
 
             yaxis=dict(
@@ -325,6 +326,7 @@ with tab1:
                 title='Year',
                 title_font=dict(color=INK),
                 tickfont=dict(color=INK_SOFT),
+                tickformat='d',
             ),
             yaxis=dict(
                 title='Number of Works',
@@ -363,6 +365,7 @@ with tab1:
                            xaxis=dict(
                                title_font=dict(color=INK),
                                tickfont=dict(color=INK_SOFT),
+                               tickformat='d',
                            ),
                            yaxis=dict(
                                title_font=dict(color=INK),
@@ -383,6 +386,7 @@ with tab1:
                 xaxis=dict(
                     title_font=dict(color=INK),
                     tickfont=dict(color=INK_SOFT),
+                    tickformat='d',
                 ),
                 yaxis=dict(
                     title_font=dict(color=INK),
@@ -854,6 +858,7 @@ with tab4:
         fig_cum.add_trace(go.Scatter(x=df_years_sorted['year'], y=df_years_sorted['cum_oa'], name='OA Works',
                                      line=dict(color=CHART_PALETTE[2], width=3)), row=1, col=2)
         fig_cum.update_layout(title="Cumulative Growth Over Time", showlegend=True, hovermode='x unified')
+        fig_cum.update_xaxes(tickformat='d')
         st.plotly_chart(styled_chart(fig_cum, height=460), width='stretch')
 
         st.markdown("---")
@@ -905,7 +910,8 @@ with tab4:
         fig_gr.add_trace(go.Bar(x=df_growth['year'], y=df_growth['cit_gr'], name='Citations', marker_color=CHART_PALETTE[1]))
         fig_gr.add_trace(go.Bar(x=df_growth['year'], y=df_growth['oa_gr'], name='OA', marker_color=CHART_PALETTE[2]))
         fig_gr.update_layout(title='YoY Growth Rates', xaxis_title='Year', yaxis_title='Growth %',
-                             barmode='group', hovermode='x unified')
+                             barmode='group', hovermode='x unified',
+                             xaxis=dict(tickformat='d'))
         st.plotly_chart(styled_chart(fig_gr, height=460), width='stretch')
 
         with st.expander("Growth data"):
