@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this software in your research, please cite it using the metadata below."
+type: software
+title: "Institution Research Dashboard"
+authors:
+  - family-names: "Skhirtladze"
+    given-names: "Tornike"
+abstract: "An interactive dashboard for exploring research output, citation impact, research topics, and institutional profiles worldwide using the OpenAlex API."
+repository-code: "https://github.com/tskhirtladze/Institution-Research-Dashboard"
+url: "https://institution-research-dashboard-ts.streamlit.app/"
+license: MIT
+keywords:
+  - academic research
+  - research analytics
+  - bibliometrics
+  - institutional research
+  - OpenAlex
+  - research evaluation
